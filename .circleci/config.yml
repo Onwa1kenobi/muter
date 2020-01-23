@@ -31,9 +31,3 @@ jobs:
           path: output
       - store_test_results:
           path: output/scan
-
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build

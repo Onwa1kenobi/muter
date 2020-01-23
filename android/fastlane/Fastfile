@@ -18,6 +18,7 @@ default_platform(:android)
 platform :android do
 
   before_all do
+  setup_circle_ci
   file = File.open("../key.properties", "r")
   ENV["SLACK_URL"] = file.each_line.to_a.last.split('=').last
   file.close

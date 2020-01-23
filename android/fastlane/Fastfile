@@ -17,10 +17,6 @@ default_platform(:android)
 
 platform :android do
 
-  before_all do |lane, options|
-  setup_circle_ci
-  end
-
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
@@ -62,11 +58,7 @@ platform :android do
                                {
                                    title: "Error message",
                                    value: exception.message
-                               },
-                               {
-                                   title: "Trace",
-                                   value: exception
-                               },
+                               }
                            ]
                        }
         )

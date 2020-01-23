@@ -18,6 +18,12 @@ jobs:
     shell: /bin/bash --login -o pipefail
     steps:
       - checkout
+      - run:
+          name: EXPOSE STUFF
+          command: |
+            echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
+            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter.keystore
+            echo $KEY_PROPERTIES | base64 -d > key.properties
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
       - run:
@@ -38,9 +44,6 @@ jobs:
       - run:
           name: Live Android life in the fastlane
           command: |
-            echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
-            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter.keystore
-            echo $KEY_PROPERTIES | base64 -d > key.properties
             cd android
             rm Gemfile.lock
             bundle update --all

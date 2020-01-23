@@ -17,9 +17,8 @@ default_platform(:android)
 
 platform :android do
 
-  before_all do
+  before_all do |lane, options|
   setup_circle_ci
-  ENV["SLACK_URL"] = ENV['SLACK_WEBHOOK_URL']
   end
 
   desc "Runs all the tests"

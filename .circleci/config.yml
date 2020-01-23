@@ -24,7 +24,6 @@ jobs:
             echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
             echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter.keystore
             echo $KEY_PROPERTIES | base64 -d > key.properties
-            export SLACK_URL = $SLACK_WEBHOOK_URL
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
       - run:

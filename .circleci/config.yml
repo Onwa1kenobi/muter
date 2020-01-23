@@ -27,7 +27,6 @@ jobs:
           name: Install bundler 2
           command: |
             sudo gem install bundler -v 2.1.4
-            bundle install
       - run:
           name: Which bundler now?
           command: bundle -v

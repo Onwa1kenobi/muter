@@ -37,7 +37,7 @@ jobs:
             - vendor/bundle
       - run:
           name: fastlane
-          command: bundle exec fastlane $FASTLANE_LANE
+          command: bundle exec fastlane deploy_internal
       - store_artifacts:
           path: output
       - store_test_results:

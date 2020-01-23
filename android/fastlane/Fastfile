@@ -1,0 +1,92 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+  before_all do
+  file = File.open("../key.properties", "r")
+  ENV["SLACK_URL"] = file.each_line.to_a.last.split('=').last
+  file.close
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    crashlytics
+  
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+
+  lane :deploy_internal do
+    begin
+        gradle(task: 'assemble', build_type: 'Release')
+        upload_to_play_store(track: 'internal', skip_upload_changelogs: true, aab: '../build/app/outputs/bundle/release/app-release.aab')
+        slack(message: 'Successfully distributed a new internal build',
+            use_webhook_configured_username_and_icon: true,)
+    rescue => exception
+        on_error(exception)
+    end
+  end
+
+  error do |lane, exception|
+    slack(
+            message: "An error occurred!",
+            success: false,
+            use_webhook_configured_username_and_icon: true,
+            attachment_properties: {
+                           fields: [
+                               {
+                                   title: "Error message",
+                                   value: exception.message
+                               },
+                               {
+                                   title: "Trace",
+                                   value: exception
+                               },
+                           ]
+                       }
+        )
+  end
+end
+
+def on_error(exception)
+    slack(
+        message: "An error occurred!",
+        success: false,
+        use_webhook_configured_username_and_icon: true,
+        attachment_properties: {
+            fields: [
+                {
+                    title: "Error message",
+                    value: exception.message
+                }
+            ]
+        }
+    )
+end

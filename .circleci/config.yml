@@ -22,7 +22,13 @@ jobs:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
       - run:
           name: Which bundler?
-          command: bundle -v || ruby/bundle-install -v 2.1.4
+          command: bundle -v
+      - run:
+          name: Install bundler 2
+          command: ruby/bundle-install -v 2.1.4
+      - run:
+          name: Which bundler now?
+          command: bundle -v
       - run: bundle check || bundle install --path vendor/bundle
       - save_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}

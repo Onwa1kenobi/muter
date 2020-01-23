@@ -6,6 +6,10 @@ version: 2.1
 
 jobs: 
   build:
+    macos:
+      xcode: "10.2.0"
+    docker:
+      - image: cirrusci/flutter
     working_directory: ~/code
     environment:
       FL_OUTPUT_DIR: output
@@ -33,9 +37,3 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy-prod:
-          requires:
-            - build
-          filters:
-            branches:
-              only: staging # List of branches for CI to build. { - /feature-.*/ to use regex }

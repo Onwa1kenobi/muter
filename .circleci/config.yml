@@ -25,7 +25,7 @@ jobs:
           command: bundle -v
       - run:
           name: Install bundler 2
-          command: bundle install 2.1.4
+          command: gem update bundler
       - run:
           name: Which bundler now?
           command: bundle -v

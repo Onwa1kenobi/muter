@@ -6,8 +6,6 @@ version: 2.1
 
 jobs: 
   build:
-    macos:
-      xcode: "10.2.0"
     docker:
       - image: cirrusci/flutter
     working_directory: ~/code

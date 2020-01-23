@@ -1,2 +1,2 @@
-json_key_file("/users/ugochukwu/androidstudioprojects/droid-services-fe1f936c9308.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+json_key_file("../app/services-account.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
 package_name("com.fifthtechnologies.muter") # e.g. com.krausefx.app

@@ -36,6 +36,9 @@ jobs:
           paths:
             - vendor/bundle
       - run:
+          name: Navigate to Android directory
+          command: cd android
+      - run:
           name: fastlane
           command: bundle exec fastlane deploy_internal
       - store_artifacts:

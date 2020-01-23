@@ -20,7 +20,7 @@ jobs:
       - run:
           name: EXPOSE STUFF
           command: |
-            echo $SERVICE_ACCOUNT_JSON | base64 -d > ${HOME}/android/app/service-account.json
+            echo $SERVICE_ACCOUNT_JSON | base64 -d > ~code/android/app/service-account.json
             echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > ./android/app/muter.keystore
             echo $KEY_PROPERTIES | base64 -d > ./android/key.properties
       - restore_cache:

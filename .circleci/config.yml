@@ -18,6 +18,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: List Directory
+          command: ls
+      - run:
           name: EXPOSE STUFF
           command: |
             cd android
@@ -42,12 +45,18 @@ jobs:
           paths:
             - vendor/bundle
       - run:
+          name: List Directory
+          command: ls
+      - run:
           name: Live Android life in the fastlane
           command: |
             cd android
             rm Gemfile.lock
             bundle update --all
             bundle exec fastlane $FASTLANE_LANE
+      - run:
+          name: List Directory
+          command: ls
       - store_artifacts:
           path: output
       - store_test_results:

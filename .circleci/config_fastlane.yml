@@ -1,0 +1,60 @@
+# Ruby CircleCI 2.1 configuration file
+#
+# Check https://circleci.com/docs/2.0/ruby/ for more details
+#
+version: 2.1
+
+jobs: 
+  build:
+    docker:
+      - image: cirrusci/flutter:latest
+    working_directory: ~/code
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: deploy_internal
+    steps:
+      - checkout
+      - run:
+          name: List Directory
+          command: ls
+      - run:
+          name: EXPOSE STUFF
+          command: |
+            cd android
+            echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
+            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -di | tee muter_keystore.jks app/muter_keystore.jks >/dev/null
+            echo $KEY_PROPERTIES | base64 -d > key.properties
+      - restore_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      - run:
+          name: Install bundler 2
+          command: |
+            sudo gem install bundler -v 2.1.4
+      - run:
+          name: Which bundler now?
+          command: bundle -v
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: List Directory
+          command: ls
+      - run:
+          name: Live Android life in the fastlane
+          command: |
+            cd android
+            rm Gemfile.lock
+            bundle update --all
+            bundle exec fastlane $FASTLANE_LANE
+      - run:
+          name: List Directory
+          command: ls
+      - store_artifacts:
+          path: output
+      - store_test_results:
+          path: output/scan

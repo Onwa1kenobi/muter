@@ -10,8 +10,8 @@ jobs:
       - image: cirrusci/flutter
     steps:
       - checkout
-      - run: echo $GCLOUD_KEY > ${HOME}/gcloud-service-key.json
-      - run: cat  ${HOME}/gcloud-service-key.json
+      - run: echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
+      - run: cat  app/service-account.json
       - run: flutter doctor
       - run: flutter test
       - run: flutter -v build apk

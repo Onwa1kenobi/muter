@@ -4,9 +4,6 @@
 #
 version: 2.1
 
-orbs:
-  ruby: circleci/ruby@0.1.2 # Ruby orb registry: https://circleci.com/orbs/registry/orb/circleci/ruby
-
 jobs: 
   build:
     docker:
@@ -25,7 +22,7 @@ jobs:
           command: |
             cd android
             echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
-            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter.keystore
+            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -di | tee muter_keystore.jks app/muter_keystore.jks >/dev/null
             echo $KEY_PROPERTIES | base64 -d > key.properties
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}

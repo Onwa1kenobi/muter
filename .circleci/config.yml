@@ -22,7 +22,7 @@ jobs:
         name: Whatever cat does
         command: |
           cd android
-          cat  app/service-account.json
+          cat app/service-account.json
       - run: flutter doctor
       - run: flutter test
       - run: flutter -v build apk

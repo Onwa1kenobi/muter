@@ -18,7 +18,6 @@ jobs:
             echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
             echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -di | tee muter_keystore.jks app/muter_keystore.jks >/dev/null
             echo $KEY_PROPERTIES | base64 -d > key.properties
-      - run: cat android/app/service-account.json
       - run: flutter doctor
       - run: flutter test
       - run: flutter -v build apk

@@ -1,0 +1,51 @@
+[
+  {
+    "day": "sunday",
+    "isActive": false,
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "mode": "silent"
+  },
+  {
+    "day": "monday",
+    "isActive": false,
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "mode": "ring"
+  },
+  {
+    "day": "tuesday",
+    "isActive": false,
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "mode": "vibrate"
+  },
+  {
+    "day": "wednesday",
+    "isActive": true,
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "mode": "silent"
+  },
+  {
+    "day": "thursday",
+    "isActive": false,
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "mode": "silent"
+  },
+  {
+    "day": "friday",
+    "isActive": false,
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "mode": "vibrate"
+  },
+  {
+    "day": "saturday",
+    "isActive": false,
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "mode": "ring"
+  }
+]

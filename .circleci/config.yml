@@ -7,7 +7,7 @@ version: 2.1
 jobs: 
   build:
     docker:
-      - image: cirrusci/flutter
+      - image: cirrusci/flutter:latest
     working_directory: ~/code
     environment:
       FL_OUTPUT_DIR: output

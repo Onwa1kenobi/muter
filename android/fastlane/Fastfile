@@ -44,6 +44,8 @@ platform :android do
         slack(message: 'Successfully distributed a new internal build',
             use_webhook_configured_username_and_icon: true,)
     rescue => exception
+        raise exception unless exception.message.include?('apkUpgradeVersionConflict')
+        puts 'Current version already present on the Play Store. Omitting this upload.'
         on_error(exception)
     end
   end

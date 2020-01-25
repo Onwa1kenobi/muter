@@ -50,6 +50,11 @@ platform :android do
     end
   end
 
+  lane :android_success_notification do
+    slack(message: 'Successfully distributed a new internal build',
+                use_webhook_configured_username_and_icon: true)
+  end
+
   error do |lane, exception|
     slack(
             message: "An error occurred!",

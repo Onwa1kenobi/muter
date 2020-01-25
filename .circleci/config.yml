@@ -11,26 +11,49 @@ jobs:
     working_directory: ~/code
     steps:
       - checkout
+      - restore_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Install bundler 2
+          command: |
+            sudo gem install bundler -v 2.1.4
+
+      - run: bundle check || bundle install --path vendor/bundle
+
+      - save_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
       - run:
           name: Retrieve Evironment Variables
           command: |
             cd android
             echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
-            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -di | tee muter_keystore.jks app/muter_keystore.jks >/dev/null
+            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter_keystore.jks
             echo $KEY_PROPERTIES | base64 -d > key.properties
+
       - run: flutter doctor
+
       - run:
           name: Run Tests
           command: flutter test
-      - run: flutter build appbundle --flavor prod
-      - run: ls
+
       - run:
-          name: List directory
-          command: |
-              cd build/app/outputs/bundle/prodRelease
-              ls
+          name: Build Production App Bundle
+          command: flutter build appbundle --flavor prod
+
       - run:
           name: Publish Application Bundle to Play Store
           command: |
               cd android
               ./gradlew publishProdReleaseBundle
+
+      - run:
+          name: Send Success Slack Notification
+          command: |
+            cd android
+            rm Gemfile.lock
+            bundle update --all
+            bundle exec fastlane android_success_notification

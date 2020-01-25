@@ -105,6 +105,7 @@ play {
     releaseStatus = "completed"
     resolutionStrategy = "ignore"
     artifactDir = file("../../build/app/outputs/bundle/prodRelease")
+    defaultToAppBundles = true
 }
 
 dependencies {

@@ -19,7 +19,9 @@ jobs:
             echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -di | tee muter_keystore.jks app/muter_keystore.jks >/dev/null
             echo $KEY_PROPERTIES | base64 -d > key.properties
       - run: flutter doctor
-      - run: flutter test
+      - run:
+          name: Run Tests
+          command: flutter test
       - run: flutter build appbundle
       - run:
           name: Publish Application Bundle to Play Store

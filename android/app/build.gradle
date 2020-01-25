@@ -104,7 +104,7 @@ play {
     userFraction = 1
     releaseStatus = "completed"
     resolutionStrategy = "ignore"
-    artifactDir = file("../build/app/outputs/bundle/prodRelease")
+    artifactDir = file("../../build/app/outputs/bundle/prodRelease")
 }
 
 dependencies {

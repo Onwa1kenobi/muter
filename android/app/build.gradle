@@ -99,12 +99,12 @@ flutter {
 }
 
 play {
-    serviceAccountCredentials = file("../app/services-account.json")
+    serviceAccountCredentials = file("../app/service-account.json")
     track = "internal"
     userFraction = 1
     releaseStatus = "completed"
     resolutionStrategy = "ignore"
-    artifactDir = file("../build/app/outputs/bundle/release")
+    artifactDir = file("../build/app/outputs/bundle/release/app-release.aab")
     defaultToAppBundles = true
 }
 

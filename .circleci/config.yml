@@ -24,6 +24,11 @@ jobs:
           command: flutter test
       - run: flutter build appbundle --flavor prod
       - run:
+          name: List directory
+          command: |
+              cd ../build/app/outputs/bundle/prodRelease
+              ls
+      - run:
           name: Publish Application Bundle to Play Store
           command: |
               cd android

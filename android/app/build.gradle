@@ -29,6 +29,11 @@ def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+plugins {
+    id 'com.android.application'
+    id 'com.github.triplet.play' version '2.6.2'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -71,6 +76,16 @@ android {
 
 flutter {
     source '../..'
+}
+
+play {
+    serviceAccountCredentials = file("../app/services-account.json")
+    track = "internal"
+    userFraction = 1
+    releaseStatus = "completed"
+    resolutionStrategy = "ignore"
+    artifactDir = file("../build/app/outputs/bundle/release")
+    defaultToAppBundles = true
 }
 
 dependencies {

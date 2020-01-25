@@ -20,4 +20,7 @@ jobs:
             echo $KEY_PROPERTIES | base64 -d > key.properties
       - run: flutter doctor
       - run: flutter test
-      - run: flutter -v build apk
+      - run: flutter build appbundle
+      - run:
+          name: Publish Application Bundle to Play Store
+          command: ./gradlew publishProdReleaseBundle

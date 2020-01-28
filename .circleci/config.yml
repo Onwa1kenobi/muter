@@ -41,14 +41,14 @@ jobs:
           command: flutter test
 
       - run:
-          name: Build Production App Bundle
+          name: Build Production flavor App Bundle
           command: flutter build appbundle --flavor prod
 
       - run:
           name: Publish Application Bundle for Internal Sharing to Play Store
           command: |
               cd android
-              ./gradlew uploadReleasePrivateBundle --artifact-dir ../../build/app/outputs/bundle/prodRelease
+              ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../../build/app/outputs/bundle/prodRelease
 
       - run:
           name: Send Success Slack Notification

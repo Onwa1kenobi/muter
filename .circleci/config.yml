@@ -10,14 +10,10 @@ jobs:
     working_directory: ~/code
     steps:
       - checkout
-      - jq/install
+      - jq-1.6/install
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
 
-      - run:
-          name: Install jq
-          command: |
-            apt-get update && apt-get install jq
 
       - run:
           name: Install bundler 2

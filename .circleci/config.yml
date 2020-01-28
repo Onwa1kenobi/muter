@@ -2,10 +2,6 @@
 #
 # Check https://circleci.com/docs/2.0/ruby/ for more details
 #
-version: 2.1
-
-orbs:
-  jq: circleci/jq@1.9.1
 
 jobs:
   build:
@@ -174,6 +170,11 @@ jobs:
             rm Gemfile.lock
             bundle update --all
             bundle exec fastlane android_success_notification
+
+orbs:
+  jq: circleci/jq
+
+version: 2.1
 
 workflows:
   version: 2

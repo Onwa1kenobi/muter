@@ -43,12 +43,24 @@ jobs:
       - run:
           name: Build Production flavor App Bundle
           command: flutter build appbundle --flavor prod
+          filters:
+            branches:
+              ignore:
+                - develop
+                - staging
+                - master
 
       - run:
           name: Publish Application Bundle for Internal Sharing to Play Store
           command: |
               cd android
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
+          filters:
+            branches:
+              ignore:
+                - develop
+                - staging
+                - master
 
       - run:
           name: Send Success Slack Notification
@@ -57,6 +69,12 @@ jobs:
             rm Gemfile.lock
             bundle update --all
             bundle exec fastlane android_success_notification
+          filters:
+            branches:
+              ignore:
+                - develop
+                - staging
+                - master
 
   deploy-alpha:
     docker:

@@ -48,7 +48,7 @@ jobs:
           name: Publish Application Bundle for Internal Sharing to Play Store
           command: |
               cd android
-              ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../../build/app/outputs/bundle/prodRelease
+              ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
 
       - run:
           name: Send Success Slack Notification

@@ -10,6 +10,7 @@ jobs:
     working_directory: ~/code
     steps:
       - checkout
+      - jq/install
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
 
@@ -63,7 +64,7 @@ jobs:
               filenames=`ls ./*.json`
               for eachfile in $filenames
               do
-                URL=`cat $eachfile | json select '.downloadUrl'`
+                URL=`jq '.downloadUrl' $eachfile`
               done
               echo $url
             fi

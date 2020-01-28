@@ -15,6 +15,11 @@ jobs:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
 
       - run:
+          name: Install jq
+          command: |
+            apt-get update && apt-get install jq
+
+      - run:
           name: Install bundler 2
           command: |
             sudo gem install bundler -v 2.1.4
@@ -54,19 +59,15 @@ jobs:
             if [[ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]]
             then
               cd android
-              echo `date +%s`
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
-              echo `date +%s`
-              ls
               cd ../build/app/outputs/internal-sharing/bundle/prodRelease
-              ls
               URL="hello"
               filenames=`ls ./*.json`
               for eachfile in $filenames
               do
                 URL=`jq '.downloadUrl' $eachfile`
               done
-              echo $url
+              echo $URL
             fi
             
       - run:

@@ -60,11 +60,11 @@ jobs:
               ls
               cd ../build/app/outputs/internal-sharing/bundle/prodRelease
               ls
-              url = "hello"
-              filenames = `ls ./*.json`
+              URL="hello"
+              filenames=`ls ./*.json`
               for eachfile in $filenames
               do
-                url=`jq '.name' $eachfile`
+                URL=`jq '.name' $eachfile`
               done
               echo $url
             fi

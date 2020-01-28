@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Install jq
           command: |
-            apt-get update && apt-get install jq
+            sudo apt-get update && apt-get install jq
 
       - run:
           name: Install bundler 2

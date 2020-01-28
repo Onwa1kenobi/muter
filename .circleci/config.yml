@@ -79,7 +79,7 @@ jobs:
           name: Build Production App Bundle
           command: flutter build appbundle --flavor prod
       - run:
-          name: Publish Application Bundle to Play Store 'internal' track
+          name: Publish Application Bundle to Play Store 'alpha' track
           command: |
             cd android
             ./gradlew publishProdReleaseBundle
@@ -105,17 +105,11 @@ jobs:
             echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter_keystore.jks
             echo $KEY_PROPERTIES | base64 -d > key.properties
       - run:
-          name: Approve SDK Licenses
-          # Captures SIGPIPE 141 error but still allow repeating "y" to accept all licenses
-          command: yes | sdkmanager --licenses || if [ $? -ne '141' ]; then exit $?; fi;
-      - run:
-          name: Build Production App Bundle
-          command: flutter build appbundle --flavor prod
-      - run:
-          name: Publish Application Bundle to Play Store 'internal' track
+          name: Promote 'alpha' build to 'beta' track
           command: |
             cd android
-            ./gradlew publishProdReleaseBundle
+            ./gradlew promoteArtifact \
+              --from-track alpha --promote-track beta
       - run:
           name: Send Success Slack Notification
           command: |

@@ -42,33 +42,28 @@ jobs:
 
       - run:
           name: Build Production flavor App Bundle
-          command: flutter build appbundle --flavor prod
-          filters:
-            branches:
-              ignore:
-                - develop
-                - staging
-                - master
+          command: |
+            if [ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]; then
+              flutter build appbundle --flavor prod
+            fi
 
       - run:
           name: Publish Application Bundle for Internal Sharing to Play Store
           command: |
+            if [ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]; then
               cd android
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
-          filters:
-            branches:
-              ignore:
-                - develop
-                - staging
-                - master
+            fi
 
       - run:
           name: Send Success Slack Notification
           command: |
-            cd android
-            rm Gemfile.lock
-            bundle update --all
-            bundle exec fastlane android_success_notification
+            if [ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]; then
+              cd android
+              rm Gemfile.lock
+              bundle update --all
+              bundle exec fastlane android_success_notification
+            fi
           filters:
             branches:
               ignore:
@@ -120,6 +115,8 @@ jobs:
           command: |
             cd android
             echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
+            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter_keystore.jks
+            echo $KEY_PROPERTIES | base64 -d > key.properties
       - run:
           name: Promote 'alpha' build to 'beta' track
           command: |

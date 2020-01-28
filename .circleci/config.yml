@@ -58,11 +58,15 @@ jobs:
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
               echo `date +%s`
               ls
-              cd ../build/app/build/internal-sharing/bundle/prodRelease
+              cd ../build/app/outputs/internal-sharing/bundle/prodRelease
               ls
-            filename = `date +%s`
-            url=`jq '.name' filename.json`
-            echo url
+              url = "hello"
+              filenames = `ls ./*.json`
+              for eachfile in $filenames
+              do
+                url=`jq '.name' $eachfile`
+              done
+              echo $url
             fi
             
       - run:

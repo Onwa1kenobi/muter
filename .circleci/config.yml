@@ -64,7 +64,6 @@ jobs:
               for eachfile in $filenames
               do
                 URL=`cat $eachfile | json select '.downloadUrl'`
-#                URL=`jq '.name' $eachfile`
               done
               echo $url
             fi

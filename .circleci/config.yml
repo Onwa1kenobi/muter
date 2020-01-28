@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Build Production flavor App Bundle
           command: |
-            if [ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]
+            if [[ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]]
             then
               flutter build appbundle --flavor prod
             fi
@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Publish Application Bundle for Internal Sharing to Play Store
           command: |
-            if [ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]
+            if [[ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]]
             then
               cd android
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
@@ -60,7 +60,7 @@ jobs:
       - run:
           name: Send Success Slack Notification
           command: |
-            if [ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]
+            if [[ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]]
             then
               cd android
               rm Gemfile.lock

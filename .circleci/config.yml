@@ -4,6 +4,9 @@
 #
 version: 2.1
 
+orbs:
+  jq: circleci/jq@1.9.1
+
 jobs:
   build:
     docker:

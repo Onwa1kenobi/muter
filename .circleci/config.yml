@@ -57,7 +57,8 @@ jobs:
               echo `date +%s`
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
               echo `date +%s`
-              cd app/build/outputs/internal-sharing/bundle/prodRelease
+              ls
+              cd ../build/app/build/internal-sharing/bundle/prodRelease
               ls
             filename = `date +%s`
             url=`jq '.name' filename.json`

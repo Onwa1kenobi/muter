@@ -115,11 +115,13 @@ jobs:
             echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter_keystore.jks
             echo $KEY_PROPERTIES | base64 -d > key.properties
       - run:
+          name: Build Production App Bundle
+          command: flutter build appbundle --flavor prod
+      - run:
           name: Promote 'alpha' build to 'beta' track
           command: |
             cd android
-            ./gradlew promoteArtifact \
-              --from-track alpha --promote-track beta
+            ./gradlew promoteArtifact --from-track alpha --promote-track beta
       - run:
           name: Send Success Slack Notification
           command: |

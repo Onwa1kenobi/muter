@@ -147,6 +147,7 @@ jobs:
     working_directory: ~/code
     steps:
       - checkout
+      - jq/install
       - run:
           name: Retrieve Evironment Variables
           command: |

@@ -45,10 +45,10 @@ jobs:
           command: flutter build appbundle --flavor prod
 
       - run:
-          name: Publish Application Bundle to Play Store
+          name: Publish Application Bundle for Internal Sharing to Play Store
           command: |
               cd android
-              ./gradlew publishProdReleaseBundle
+              ./gradlew uploadReleasePrivateBundle --artifact-dir ../../build/app/outputs/bundle/prodRelease
 
       - run:
           name: Send Success Slack Notification
@@ -58,7 +58,73 @@ jobs:
             bundle update --all
             bundle exec fastlane android_success_notification
 
-  deploy-internal:
+  deploy-alpha:
+    docker:
+      - image: cirrusci/flutter
+    working_directory: ~/code
+    steps:
+      - checkout
+      - run:
+          name: Retrieve Evironment Variables
+          command: |
+            cd android
+            echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
+            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter_keystore.jks
+            echo $KEY_PROPERTIES | base64 -d > key.properties
+      - run:
+          name: Approve SDK Licenses
+          # Captures SIGPIPE 141 error but still allow repeating "y" to accept all licenses
+          command: yes | sdkmanager --licenses || if [ $? -ne '141' ]; then exit $?; fi;
+      - run:
+          name: Build Production App Bundle
+          command: flutter build appbundle --flavor prod
+      - run:
+          name: Publish Application Bundle to Play Store 'internal' track
+          command: |
+            cd android
+            ./gradlew publishProdReleaseBundle
+      - run:
+          name: Send Success Slack Notification
+          command: |
+            cd android
+            rm Gemfile.lock
+            bundle update --all
+            bundle exec fastlane android_success_notification
+
+  deploy-beta:
+    docker:
+      - image: cirrusci/flutter
+    working_directory: ~/code
+    steps:
+      - checkout
+      - run:
+          name: Retrieve Evironment Variables
+          command: |
+            cd android
+            echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
+            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter_keystore.jks
+            echo $KEY_PROPERTIES | base64 -d > key.properties
+      - run:
+          name: Approve SDK Licenses
+          # Captures SIGPIPE 141 error but still allow repeating "y" to accept all licenses
+          command: yes | sdkmanager --licenses || if [ $? -ne '141' ]; then exit $?; fi;
+      - run:
+          name: Build Production App Bundle
+          command: flutter build appbundle --flavor prod
+      - run:
+          name: Publish Application Bundle to Play Store 'internal' track
+          command: |
+            cd android
+            ./gradlew publishProdReleaseBundle
+      - run:
+          name: Send Success Slack Notification
+          command: |
+            cd android
+            rm Gemfile.lock
+            bundle update --all
+            bundle exec fastlane android_success_notification
+
+  deploy-release:
     docker:
       - image: cirrusci/flutter
     working_directory: ~/code
@@ -96,15 +162,21 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy-internal:
+      - deploy-alpha:
           requires:
             - build
           filters:
             branches:
               only: develop
-      - deploy-prod:
+      - deploy-beta:
           requires:
             - build
           filters:
             branches:
-              only: staging # List of branches for CI to build. { - /feature-.*/ to use regex }
+              only: staging
+      - deploy-release:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master # List of branches for CI to build. { - /feature-.*/ to use regex }

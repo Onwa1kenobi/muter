@@ -54,12 +54,12 @@ jobs:
             if [[ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]]
             then
               cd android
-              echo date +%s
+              echo `date +%s`
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
-              echo date +%s
-              cd app/build/outputs/internal-sharing/bundle/release
+              echo `date +%s`
+              cd app/build/outputs/internal-sharing/bundle/prodRelease
               ls
-            filename = date +%s
+            filename = `date +%s`
             url=`jq '.name' filename.json`
             echo url
             fi

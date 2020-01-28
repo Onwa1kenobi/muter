@@ -100,7 +100,7 @@ flutter {
 
 play {
     serviceAccountCredentials = file("../app/service-account.json")
-    track = "internal"
+    track = "alpha"
     userFraction = 1
     releaseStatus = "completed"
     resolutionStrategy = "ignore"

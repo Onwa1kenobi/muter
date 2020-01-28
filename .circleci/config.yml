@@ -47,7 +47,7 @@ jobs:
             then
               flutter build appbundle --flavor prod
             fi
-
+            
       - run:
           name: Publish Application Bundle for Internal Sharing to Play Store
           command: |
@@ -56,7 +56,7 @@ jobs:
               cd android
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
             fi
-
+            
       - run:
           name: Send Success Slack Notification
           command: |
@@ -67,12 +67,6 @@ jobs:
               bundle update --all
               bundle exec fastlane android_success_notification
             fi
-          filters:
-            branches:
-              ignore:
-                - develop
-                - staging
-                - master
 
   deploy-alpha:
     docker:
@@ -118,8 +112,6 @@ jobs:
           command: |
             cd android
             echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
-            echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter_keystore.jks
-            echo $KEY_PROPERTIES | base64 -d > key.properties
       - run:
           name: Promote 'alpha' build to 'beta' track
           command: |

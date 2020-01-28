@@ -10,7 +10,6 @@ jobs:
     working_directory: ~/code
     steps:
       - checkout
-      - jq/install
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
 
@@ -64,7 +63,8 @@ jobs:
               filenames=`ls ./*.json`
               for eachfile in $filenames
               do
-                URL=`jq '.name' $eachfile`
+                URL=`cat $eachfile | json select '.downloadUrl'`
+#                URL=`jq '.name' $eachfile`
               done
               echo $url
             fi
@@ -172,7 +172,7 @@ jobs:
             bundle exec fastlane android_success_notification
 
 orbs:
-  jq: circleci/jq
+  jq: circleci/jq@1.9.1
 
 version: 2.1
 

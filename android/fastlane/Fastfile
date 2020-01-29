@@ -56,7 +56,7 @@ platform :android do
   end
 
   lane :slack_internal_deploy_success do
-    puts url = JSON.parse(ENV[INTERNAL_SHARING_URL].to_json)['downloadUrl']
+    puts url = JSON.parse(ENV['INTERNAL_SHARING_URL'].to_json)['downloadUrl']
     slack(message: "🥳 Hurray, your build ran successfully. The internal sharing Android bundle link is given below; \n#{url}",
     default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],
                     use_webhook_configured_username_and_icon: true)
@@ -64,7 +64,7 @@ platform :android do
 
   error do |lane, exception|
     slack(
-            message: "An error occurred!",
+            message: "🤔 An error occurred!",
             success: false,
             use_webhook_configured_username_and_icon: true,
             default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],

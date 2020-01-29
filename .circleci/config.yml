@@ -14,11 +14,6 @@ jobs:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
 
       - run:
-          name: Install jq
-          command: |
-            yes | sudo apt-get update && sudo apt-get install jq || if [ $? -ne '141' ]; then exit $?; fi;
-
-      - run:
           name: Install bundler 2
           command: |
             sudo gem install bundler -v 2.1.4
@@ -60,11 +55,8 @@ jobs:
               cd android
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
               cd ../build/app/outputs/internal-sharing/bundle/prodRelease
-              filenames=`ls ./*.json`
-              for eachfile in $filenames
-              do
-                export INTERNAL_SHARING_URL="$(<$eachfile)"
-              done
+              filename=`ls ./*json`
+              export INTERNAL_SHARING_URL="$(<$filename)"
               echo $INTERNAL_SHARING_URL
             fi
             

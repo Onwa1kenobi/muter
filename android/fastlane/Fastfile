@@ -56,8 +56,9 @@ platform :android do
   end
 
   lane :slack_internal_deploy_success do
-    puts url = JSON.parse(ENV[INTERNAL_SHARING_URL].to_json)['gwala']
-    slack(message: url,
+    puts url = JSON.parse(ENV[INTERNAL_SHARING_URL].to_json)['downloadUrl']
+    slack(message: "🥳 Hurray, your build ran successfully. The internal sharing Android bundle link is given below; \n#{url}",
+    default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],
                     use_webhook_configured_username_and_icon: true)
   end
 
@@ -66,6 +67,7 @@ platform :android do
             message: "An error occurred!",
             success: false,
             use_webhook_configured_username_and_icon: true,
+            default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],
             attachment_properties: {
                            fields: [
                                {
@@ -80,9 +82,10 @@ end
 
 def on_error(exception)
     slack(
-        message: "An error occurred!",
+        message: "🤔 Something went wrong!",
         success: false,
         use_webhook_configured_username_and_icon: true,
+        default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],
         attachment_properties: {
             fields: [
                 {

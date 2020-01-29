@@ -59,7 +59,7 @@ platform :android do
     contentHash = options[:internal_sharing_url]
     puts url = JSON.parse(contentHash.to_json)['downloadUrl']
     slack(message: "🥳 \nHurray, your build ran successfully. The internal sharing Android bundle link is given below; \n#{url}",
-    default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],
+    default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit],
                     use_webhook_configured_username_and_icon: true)
   end
 
@@ -68,7 +68,7 @@ platform :android do
             message: "🤔 An error occurred!",
             success: false,
             use_webhook_configured_username_and_icon: true,
-            default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],
+            default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit],
             attachment_properties: {
                            fields: [
                                {
@@ -86,7 +86,7 @@ def on_error(exception)
         message: "🤔 Something went wrong!",
         success: false,
         use_webhook_configured_username_and_icon: true,
-        default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],
+        default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit],
         attachment_properties: {
             fields: [
                 {

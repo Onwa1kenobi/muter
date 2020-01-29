@@ -41,9 +41,9 @@ fastlane android deploy_internal
 fastlane android android_success_notification
 ```
 
-### android do_json
+### android slack_internal_deploy_success
 ```
-fastlane android do_json
+fastlane android slack_internal_deploy_success
 ```
 
 

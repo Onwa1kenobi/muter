@@ -68,7 +68,7 @@ jobs:
               cd android
               rm Gemfile.lock
               bundle update --all
-              bundle exec fastlane slack_internal_deploy_success
+              bundle exec fastlane slack_internal_deploy_success internal_sharing_url:$INTERNAL_SHARING_URL
             fi
 
   deploy-alpha:

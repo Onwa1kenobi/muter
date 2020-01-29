@@ -10,6 +10,7 @@ jobs:
     working_directory: ~/code
     steps:
       - checkout
+      - jq/install --version 1.6
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
 

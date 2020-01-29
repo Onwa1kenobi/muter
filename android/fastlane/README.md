@@ -36,6 +36,16 @@ Deploy a new version to the Google Play
 fastlane android deploy_internal
 ```
 
+### android android_success_notification
+```
+fastlane android android_success_notification
+```
+
+### android do_json
+```
+fastlane android do_json
+```
+
 
 ----
 

@@ -55,6 +55,12 @@ platform :android do
                 use_webhook_configured_username_and_icon: true)
   end
 
+  lane :slack_internal_deploy_success do
+    puts url = JSON.parse(ENV[INTERNAL_SHARING_URL].to_json)['gwala']
+    slack(message: url,
+                    use_webhook_configured_username_and_icon: true)
+  end
+
   error do |lane, exception|
     slack(
             message: "An error occurred!",

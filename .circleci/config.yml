@@ -60,6 +60,7 @@ jobs:
               cd android
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
               cd ../build/app/outputs/internal-sharing/bundle/prodRelease
+              yes | sudo apt-get update && sudo apt-get install jq || if [ $? -ne '141' ]; then exit $?; fi;
               URL="hello"
               filenames=`ls ./*.json`
               for eachfile in $filenames

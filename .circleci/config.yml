@@ -60,6 +60,9 @@ jobs:
               filename=`ls ./*json`
               INTERNAL_SHARING_URL="$(<$filename)"
               echo $INTERNAL_SHARING_URL
+              rm Gemfile.lock
+              bundle update --all
+              bundle exec fastlane slack_internal_deploy_success internal_sharing_url:$INTERNAL_SHARING_URL
             fi
             
       - run:

@@ -55,9 +55,10 @@ platform :android do
                 use_webhook_configured_username_and_icon: true)
   end
 
-  lane :slack_internal_deploy_success do
-    puts url = JSON.parse(ENV['INTERNAL_SHARING_URL'].to_json)['downloadUrl']
-    slack(message: "🥳 Hurray, your build ran successfully. The internal sharing Android bundle link is given below; \n#{url}",
+  lane :slack_internal_deploy_success do |options|
+    contentHash = options[:internal_sharing_url]
+    puts url = JSON.parse(contentHash.to_json)['downloadUrl']
+    slack(message: "🥳 \nHurray, your build ran successfully. The internal sharing Android bundle link is given below; \n#{url}",
     default_payloads: [:lane, :test_result, :git_branch, :git_author, :last_git_commit_message],
                     use_webhook_configured_username_and_icon: true)
   end

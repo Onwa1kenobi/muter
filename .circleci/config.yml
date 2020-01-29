@@ -8,6 +8,8 @@ jobs:
     docker:
       - image: cirrusci/flutter
     working_directory: ~/code
+    environment:
+      INTERNAL_SHARING_URL: sharing_url
     steps:
       - checkout
       - restore_cache:
@@ -56,7 +58,7 @@ jobs:
               ./gradlew uploadProdReleasePrivateBundle --artifact-dir ../build/app/outputs/bundle/prodRelease
               cd ../build/app/outputs/internal-sharing/bundle/prodRelease
               filename=`ls ./*json`
-              export INTERNAL_SHARING_URL="$(<$filename)"
+              INTERNAL_SHARING_URL="$(<$filename)"
               echo $INTERNAL_SHARING_URL
             fi
             
@@ -66,7 +68,9 @@ jobs:
             if [[ "${CIRCLE_BRANCH}" != "develop" && "${CIRCLE_BRANCH}" != "staging" && "${CIRCLE_BRANCH}" != "master" ]]
             then
               cd android
+              echo lol
               echo $INTERNAL_SHARING_URL
+              echo blah blah
               rm Gemfile.lock
               bundle update --all
               bundle exec fastlane slack_internal_deploy_success internal_sharing_url:$INTERNAL_SHARING_URL

@@ -34,6 +34,12 @@ jobs:
             echo $SERVICE_ACCOUNT_JSON | base64 -d > app/service-account.json
             echo $GOOGLE_PLAY_UPLOAD_KEY | base64 -d > app/muter_keystore.jks
             echo $KEY_PROPERTIES | base64 -d > key.properties
+            echo $KEY_PROPERTIES | base64 -d > key.properties
+            lol="$(<key.properties)"
+            echo lol
+            echo $lol
+            echo lol
+
 
       - run: flutter doctor
 
